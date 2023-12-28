@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        let timeout;
+        function debouncedpopulateddiv(){
+            clearInterval(timeout)
+            timeout = setTimeout(()=>{
+                populateDiv()
+            },450)
+        }
+
+        async function populateDiv(){
+            let element = document.getElementById("sum")
+            let n1 = document.getElementById("number1").value;
+            let n2 = document.getElementById("number2").value;
+            let n3 = document.getElementById("number3").value;
+            if (n1 != "" && n2 != "" && n3 != ""){
+                const url = "http://localhost:3000/interest?principle="+n1+"&rate="+n2 + "&year="+n3;
+                const feching = await fetch(url)
+                const respons = await feching.json()
+                document.getElementById("sum").innerText = "Total is "+respons.total +" and interest is " + respons.interest
+
+                console.log(respons)
+            }
+            if(n1 =="" || n2 =="" || n3 ==""){
+                document.getElementById("sum").innerText = ""
+            }
+        }
+
+
+    </script>
+</head>
+<body>
+    <div class="title">INTEREST CALCULATOR</div>
+    <div class="inputs">
+        <input oninput="debouncedpopulateddiv()" type="text" placeholder="Enter Principle" id = "number1">
+        <input oninput="debouncedpopulateddiv()" type="text" placeholder="Enter Rate" id = "number2">
+        <input oninput="debouncedpopulateddiv()" type="text" placeholder="Enter Years" id = "number3">
+    </div>
+    <div id="sum"></div>
+</body>
+</html>
