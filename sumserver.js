@@ -1,12 +1,8 @@
 const express = require("express")
+const cors = require("cors")
 const app = express()
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-  });
+app.use(cors());
 
 app.get("/", function (req, res){
     const a = req.query.a
